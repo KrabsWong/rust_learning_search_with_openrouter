@@ -66,7 +66,9 @@ async fn main() -> Result<()> {
     // 3. Generate final answer
     println!("\n{}", "💡 Phase 3: Generating Final Answer (OpenRouter)".bright_blue().bold());
     match generate_final_answer(&http_client, &openrouter_api_key, user_query, &search_results_summary).await {
-        Result::Ok((_final_answer, final_usage)) => {
+        Result::Ok((final_answer, final_usage)) => {
+            println!("\n{}", "Final Answer:".bright_green().bold());
+            println!("{}", final_answer);
             // The final_answer is streamed directly by handle_openrouter_stream if stream_to_stdout is true.
             // No need to print it here again as it's displayed in real-time.
             if let Some(usage) = final_usage {

@@ -86,7 +86,7 @@ pub async fn generate_final_answer(
     println!("{}", "Receiving final answer from OpenRouter...".yellow()); 
 
     let (final_answer_content, usage_info) = 
-        handle_openrouter_stream(final_response_raw, "Final OpenRouter Answer Generation", true, &final_answer_spinner).await?; // Retained original context_msg as it's for internal logging/error handling
+        handle_openrouter_stream(final_response_raw, "Final OpenRouter Answer Generation", false, &final_answer_spinner).await?; // Retained original context_msg as it's for internal logging/error handling
 
     final_answer_spinner.finish_with_message("✅ Final answer received successfully:");
     Ok((final_answer_content, usage_info))

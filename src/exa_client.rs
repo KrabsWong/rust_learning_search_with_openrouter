@@ -120,16 +120,23 @@ pub async fn fetch_exa_search_results(
         let mut summary_to_display = format!("{}: {}\n", "Summary".dimmed(), "(No text content available)".italic());
         if let Some(id) = &result.id {
             if let Some(full_text) = contents_map.get(id) {
-                let snippet = full_text.chars().take(500).collect::<String>(); // Keep snippet length reasonable
+                let cleaned_text: String = full_text.lines().filter(|line| !line.trim().is_empty()).collect::<Vec<&str>>().join("\n");
+                let snippet = cleaned_text.chars().take(500).collect::<String>(); // Keep snippet length reasonable
                 if snippet.is_empty(){
-                    summary_to_display = format!("{}: {}\n", "Summary".dimmed(), "(Content is empty or not fetched)".italic());
+                    summary_to_display = format!("{}: {}\n", "Summary".dimmed(), "(Content is empty or not fetched after cleaning)".italic());
                 } else {
                     summary_to_display = format!("{}:\n{}\n", "Summary".dimmed(), snippet);
                 }
             } else if result.text.is_some() && !result.text.as_ref().unwrap().is_empty() {
                 // Fallback to text field from initial search if /contents failed or wasn't used for this ID
-                let snippet = result.text.as_ref().unwrap().chars().take(500).collect::<String>();
-                summary_to_display = format!("{}:\n{}\n", "Summary (from initial search)".dimmed(), snippet);
+                let text_content = result.text.as_ref().unwrap();
+                let cleaned_text: String = text_content.lines().filter(|line| !line.trim().is_empty()).collect::<Vec<&str>>().join("\n");
+                let snippet = cleaned_text.chars().take(500).collect::<String>();
+                if snippet.is_empty(){
+                    summary_to_display = format!("{}: {}\n", "Summary (from initial search)".dimmed(), "(Content is empty or not fetched after cleaning)".italic());
+                } else {
+                    summary_to_display = format!("{}:\n{}\n", "Summary (from initial search)".dimmed(), snippet);
+                }
             }
         }
         search_results_summary.push_str(&summary_to_display);
