@@ -16,6 +16,13 @@ This CLI tool leverages the power of Large Language Models (LLMs) and web search
 *   **Interactive Input**: Prompts the user for their query.
 *   **Styled Console Output**: Uses colored and styled text for better readability of different phases and information.
 
+[![Using large models and Exa to fetch data in the command line.](https://github.com/user-attachments/assets/260ac623-94ed-4b55-a011-c488415dc27e)](https://www.youtube.com/shorts/fPbFh3uxyVg)
+
+
+![](https://github.com/user-attachments/assets/260ac623-94ed-4b55-a011-c488415dc27e)
+<img width="400" alt="image" src="https://github.com/user-attachments/assets/260ac623-94ed-4b55-a011-c488415dc27e" />
+
+
 ## Setup
 
 ### Prerequisites
