@@ -33,7 +33,8 @@ pub async fn generate_search_keywords(
         .post(OPENROUTER_API_URL)
         .bearer_auth(openrouter_api_key)
         .header("Content-Type", "application/json")
-        .header("HTTP-Referer", "Yooooo_CLI") 
+        .header("HTTP-Referer", "http://mrsomebody.yo") 
+        .header("X-Title", "Yooooo")
         .json(&keyword_request_payload)
         .send()
         .await
@@ -74,8 +75,8 @@ pub async fn generate_final_answer(
     let final_response_raw = http_client
         .post(OPENROUTER_API_URL)
         .bearer_auth(openrouter_api_key)
-        .header("HTTP-Referer", "Yooooo_CLI") 
-        .header("X-Title", "LLM Search CLI")
+        .header("HTTP-Referer", "http://mrsomebody.yo") 
+        .header("X-Title", "Yooooo")
         .json(&final_request_payload)
         .send()
         .await
