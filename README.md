@@ -19,6 +19,10 @@ This CLI tool leverages the power of Large Language Models (LLMs) and web search
 
 Click image below to watch the video:
 
+<img width="500" alt="Terminal Screenshot part 1" src="https://github.com/user-attachments/assets/2703f05d-e7d5-4ec9-a43b-15a6c4103fe5" />
+
+<img width="500" alt="Terminal Screenshot part 2" src="https://github.com/user-attachments/assets/17ebcacf-f947-4eb0-8d2d-0be23ea2125f" />
+
 [![Using large models and Exa to fetch data in the command line.](https://github.com/user-attachments/assets/260ac623-94ed-4b55-a011-c488415dc27e)](https://www.youtube.com/shorts/fPbFh3uxyVg)
 
 ## Setup
