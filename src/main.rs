@@ -8,6 +8,7 @@ mod models;
 mod utils;
 mod openrouter_client;
 mod exa_client;
+mod constants;
 
 use crate::openrouter_client::{generate_search_keywords, generate_final_answer};
 use crate::exa_client::fetch_exa_search_results;

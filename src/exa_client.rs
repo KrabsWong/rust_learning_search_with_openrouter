@@ -6,9 +6,7 @@ use crate::models::{
     ExaSearchRequest, ExaSearchResponse, ExaContentsRequest, ExaContentsResponse,
 };
 use crate::utils::create_spinner;
-
-const EXA_SEARCH_API_URL: &str = "https://api.exa.ai/search";
-const EXA_CONTENTS_API_URL: &str = "https://api.exa.ai/contents";
+use crate::constants::exa::{SEARCH_API_URL, CONTENTS_API_URL, REQUEST_COUNT};
 
 // Helper function to fetch search results from Exa API
 pub async fn fetch_exa_search_results(
@@ -19,13 +17,13 @@ pub async fn fetch_exa_search_results(
     let exa_spinner = create_spinner(&format!("Searching with Exa: \"{}\"", search_keywords).yellow().to_string());
     let exa_request_payload = ExaSearchRequest {
         query: search_keywords,
-        num_results: 3,
+        num_results: REQUEST_COUNT,
         use_autoprompt: false,
         text: true, // Request text content
     };
 
     let exa_search_response = http_client
-        .post(EXA_SEARCH_API_URL)
+        .post(SEARCH_API_URL)
         .header("x-api-key", exa_api_key)
         .json(&exa_request_payload)
         .send()
@@ -64,7 +62,7 @@ pub async fn fetch_exa_search_results(
         };
 
         match http_client
-            .post(EXA_CONTENTS_API_URL)
+            .post(CONTENTS_API_URL)
             .header("x-api-key", exa_api_key)
             .header("Content-Type", "application/json")
             .json(&contents_request_payload)
@@ -125,7 +123,7 @@ pub async fn fetch_exa_search_results(
                 if snippet.is_empty(){
                     summary_to_display = format!("{}: {}\n", "Summary".dimmed(), "(Content is empty or not fetched after cleaning)".italic());
                 } else {
-                    summary_to_display = format!("{}:\n{}\n", "Summary".dimmed(), snippet);
+                    summary_to_display = format!("{}:\n{}...\n", "Summary".dimmed(), snippet);
                 }
             } else if result.text.is_some() && !result.text.as_ref().unwrap().is_empty() {
                 // Fallback to text field from initial search if /contents failed or wasn't used for this ID
@@ -135,7 +133,7 @@ pub async fn fetch_exa_search_results(
                 if snippet.is_empty(){
                     summary_to_display = format!("{}: {}\n", "Summary (from initial search)".dimmed(), "(Content is empty or not fetched after cleaning)".italic());
                 } else {
-                    summary_to_display = format!("{}:\n{}\n", "Summary (from initial search)".dimmed(), snippet);
+                    summary_to_display = format!("{}:\n{}...\n", "Summary (from initial search)".dimmed(), snippet);
                 }
             }
         }

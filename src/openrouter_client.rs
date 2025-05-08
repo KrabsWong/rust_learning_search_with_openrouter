@@ -3,10 +3,9 @@ use anyhow::{Context, Result, Ok};
 use futures_util::StreamExt;
 use std::io::{stdout, Write};
 use crate::models::{OpenRouterRequest, Message, OpenRouterStreamResponse, UsageInfo};
-use crate::utils::create_spinner; // handle_openrouter_response might be replaced or supplemented for streaming
-use colored::Colorize; // Added for styling the new print message
-
-const OPENROUTER_API_URL: &str = "https://oneapi.krabs.wang/openrouter-api/api/v1/chat/completions";
+use crate::utils::create_spinner;
+use colored::Colorize;
+use crate::constants::open_router::{API_URL, SUMMARY_MODEL, SEARCH_MODEL, REFERER, APPNAME};
 
 // Helper function to generate search keywords using OpenRouter
 pub async fn generate_search_keywords(
@@ -21,7 +20,7 @@ pub async fn generate_search_keywords(
     );
 
     let keyword_request_payload = OpenRouterRequest {
-        model: "deepseek/deepseek-chat-v3-0324:free", // Or your preferred model for keyword generation
+        model: SEARCH_MODEL, // Or your preferred model for keyword generation
         stream: Some(true),
         messages: vec![Message {
             role: "user",
@@ -30,11 +29,11 @@ pub async fn generate_search_keywords(
     };
 
     let keyword_response_raw = http_client
-        .post(OPENROUTER_API_URL)
+        .post(API_URL)
         .bearer_auth(openrouter_api_key)
         .header("Content-Type", "application/json")
-        .header("HTTP-Referer", "http://mrsomebody.yo") 
-        .header("X-Title", "Yooooo")
+        .header("HTTP-Referer", REFERER) 
+        .header("X-Title", APPNAME)
         .json(&keyword_request_payload)
         .send()
         .await
@@ -65,7 +64,7 @@ pub async fn generate_final_answer(
 
     let final_request_payload = OpenRouterRequest {
         stream: Some(true),
-        model: "google/gemini-2.5-pro-exp-03-25", 
+        model: SUMMARY_MODEL, 
         messages: vec![Message {
             role: "user",
             content: &final_prompt,
@@ -73,10 +72,10 @@ pub async fn generate_final_answer(
     };
     
     let final_response_raw = http_client
-        .post(OPENROUTER_API_URL)
+        .post(API_URL)
         .bearer_auth(openrouter_api_key)
-        .header("HTTP-Referer", "http://mrsomebody.yo") 
-        .header("X-Title", "Yooooo")
+        .header("HTTP-Referer", REFERER)
+        .header("X-Title", APPNAME)
         .json(&final_request_payload)
         .send()
         .await
