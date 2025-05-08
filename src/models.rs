@@ -24,7 +24,7 @@ pub struct UsageInfo {
 
 #[derive(Deserialize, Debug)]
 pub struct OpenRouterError {
-    message: String,
+    _message: String,
 }
 
 // Structs for handling streaming responses
@@ -34,7 +34,7 @@ pub struct OpenRouterStreamResponse {
     pub _model: Option<String>,
     pub choices: Vec<OpenRouterStreamChoice>,
     pub usage: Option<UsageInfo>, // To capture usage at the end of the stream
-    pub error: Option<OpenRouterError>
+    pub error: Option<OpenRouterError>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -56,7 +56,7 @@ pub struct ExaSearchRequest<'a> {
     pub query: &'a str,
     pub num_results: usize,
     pub use_autoprompt: bool,
-    pub text: bool, 
+    pub text: bool,
 }
 
 #[derive(Deserialize, Debug)]

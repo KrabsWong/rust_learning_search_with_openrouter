@@ -1,9 +1,9 @@
 use crate::constants::open_router::{API_URL, APPNAME, REFERER, SEARCH_MODEL, SUMMARY_MODEL};
 use crate::models::{
-    Message, OpenRouterError, OpenRouterRequest, OpenRouterStreamResponse, UsageInfo,
+    Message, OpenRouterRequest, OpenRouterStreamResponse, UsageInfo,
 };
 use crate::utils::create_spinner;
-use anyhow::{Context, Error, Ok, Result};
+use anyhow::{Context, Ok, Result};
 use colored::Colorize;
 use futures_util::StreamExt;
 use reqwest::Client;
