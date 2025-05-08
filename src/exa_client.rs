@@ -1,6 +1,7 @@
 use reqwest::Client;
 use anyhow::{Context, Result, Ok};
 use std::collections::HashMap;
+use std::time::Duration;
 use colored::Colorize; // Added for terminal styling
 use crate::models::{
     ExaSearchRequest, ExaSearchResponse, ExaContentsRequest, ExaContentsResponse,
@@ -22,8 +23,11 @@ pub async fn fetch_exa_search_results(
         text: true, // Request text content
     };
 
+    let timeout = Duration::new(300, 0);
+
     let exa_search_response = http_client
         .post(SEARCH_API_URL)
+        .timeout(timeout)
         .header("x-api-key", exa_api_key)
         .json(&exa_request_payload)
         .send()

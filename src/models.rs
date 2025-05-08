@@ -22,6 +22,11 @@ pub struct UsageInfo {
     pub total_tokens: u32,
 }
 
+#[derive(Deserialize, Debug)]
+pub struct OpenRouterError {
+    message: String,
+}
+
 // Structs for handling streaming responses
 #[derive(Deserialize, Debug)]
 pub struct OpenRouterStreamResponse {
@@ -29,6 +34,7 @@ pub struct OpenRouterStreamResponse {
     pub _model: Option<String>,
     pub choices: Vec<OpenRouterStreamChoice>,
     pub usage: Option<UsageInfo>, // To capture usage at the end of the stream
+    pub error: Option<OpenRouterError>
 }
 
 #[derive(Deserialize, Debug)]
